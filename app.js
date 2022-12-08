@@ -8,7 +8,7 @@ app.use(
     extended: true,
   })
 );
-
+//DB Connection details
 var con = mysql.createConnection({
   host: "mysql.razs.me",
   user: "amazon_db_user",
@@ -22,7 +22,7 @@ con.connect(() => {
 //Fetching all the records from the table
 app.get("/users", function (req, res) {
   console.log("Befor executing query");
-  con.query("SELECT * FROM murali", function (error, results) {
+  con.query("SELECT * FROM murali where ", function (error, results) {
     if (error) throw error;
     return res.send({
       error: false,
@@ -33,10 +33,10 @@ app.get("/users", function (req, res) {
   console.log("After executing query");
 });
 
-
 app.get("/",(req,res) => {
   res.send('The success message for /');
 })
+
 // Fetching single record from the table
 
 app.get("/singleuser", function (req, res) {
@@ -60,13 +60,17 @@ app.get("/singleuser", function (req, res) {
 app.post("/user", function (req, res) {
   let name = req.body.name;
   let mobile = req.body.mobile;
-  let state = req.body.State;
+  let state = req.body.state;
+  console.log('Name -->'+name);
+  console.log('mobile -->'+mobile);
+  console.log('State -->'+state);
   if (!name) {
     return res
       .status(400)
       .send({ error: true, message: "Please provide user" });
   }
-  con.query("INSERT INTO murali SET ? ", [{name : name},{mobile : mobile},{state : state}], function (
+  //"INSERT INTO `murali` (`name`, `mobile`, `state`) VALUES ("+name+", "+mobile+", "+state+")"
+  con.query("INSERT INTO murali SET ? ", [{name : name,mobile : mobile,state : state}], function (
     error,
     results,
     fields
