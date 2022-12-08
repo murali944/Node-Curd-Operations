@@ -22,7 +22,7 @@ con.connect(() => {
 //Fetching all the records from the table
 app.get("/users", function (req, res) {
   console.log("Befor executing query");
-  con.query("SELECT * FROM murali", function (error, results, fields) {
+  con.query("SELECT * FROM murali", function (error, results) {
     if (error) throw error;
     return res.send({
       error: false,
@@ -33,6 +33,10 @@ app.get("/users", function (req, res) {
   console.log("After executing query");
 });
 
+
+app.get("/",(req,res) => {
+  res.send('The success message for /');
+})
 // Fetching single record from the table
 
 app.get("/singleuser", function (req, res) {
